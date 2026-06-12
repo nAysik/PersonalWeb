@@ -7,170 +7,169 @@
   <meta name="description" content="UA & Ad Monetization Specialist helping mobile games scale through data-driven growth strategies.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Figtree:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     /* ── Tokens ── */
     :root {
-      --bg: #1C0F12;
-      --surface: #271519;
-      --surface-2: #321B20;
-      --line: #46282E;
-      --line-strong: #5C3640;
-      --ink: #F4E9E4;
-      --ink-soft: #CDB3AB;     /* ~8:1 on bg */
-      --ink-mute: #B0938A;     /* ~5.6:1 on bg — smallest text only */
-      --coral: #FF5A45;
-      --coral-deep: #E0402C;
-      --gold: #FFC94A;
-      --font-display: 'Unbounded', sans-serif;
-      --font-body: 'Figtree', sans-serif;
-      --radius: 10px;
+      --bg: #F7FAF9;            /* whitish, faint teal tint */
+      --bg-raise: #FFFFFF;
+      --ink: #101817;           /* near-black, teal-tinted */
+      --ink-soft: #3F4E4B;      /* ~8:1 on bg */
+      --ink-mute: #5C6D6A;      /* ~5.2:1 on bg — smallest text only */
+      --teal: #00D1C1;          /* electric teal — fills & graphics */
+      --teal-deep: #0B7E74;     /* small text / links on light */
+      --teal-wash: #E2F6F3;     /* hover tint */
+      --teal-ink: #04302B;      /* text on electric teal */
+      --rule: #101817;
+      --rule-soft: #D4DEDC;
+      --font-display: 'Bricolage Grotesque', sans-serif;
+      --font-body: 'Hanken Grotesk', sans-serif;
       --ease: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     html { scroll-behavior: smooth; }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
-    body { font-family: var(--font-body); background: var(--bg); color: var(--ink); line-height: 1.65; font-size: 16px; }
-    ::selection { background: var(--coral); color: var(--bg); }
-    :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
+    body { font-family: var(--font-body); background: var(--bg); color: var(--ink); line-height: 1.65; font-size: 16.5px; }
+    ::selection { background: var(--teal); color: var(--teal-ink); }
+    :focus-visible { outline: 3px solid var(--teal-deep); outline-offset: 3px; border-radius: 2px; }
 
-    .skip-link { position: absolute; left: -9999px; top: 0; background: var(--gold); color: var(--bg); padding: 10px 18px; font-weight: 700; z-index: 200; }
+    .skip-link { position: absolute; left: -9999px; top: 0; background: var(--ink); color: var(--bg); padding: 10px 18px; font-weight: 700; z-index: 200; }
     .skip-link:focus { left: 12px; top: 12px; }
 
-    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+    .wrap { max-width: 1140px; margin: 0 auto; padding: 0 32px; }
 
-    /* Section header system: pixel-square + display type. One motif, used deliberately. */
-    .sec-head { display: flex; align-items: center; gap: 14px; margin-bottom: 40px; }
-    .sec-head::before { content: ''; width: 12px; height: 12px; background: var(--coral); flex: none; box-shadow: 16px 0 0 var(--gold); margin-right: 16px; }
-    .sec-head h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(20px, 2.6vw, 30px); letter-spacing: 0; }
+    /* Section header system: heading + short teal bar. One motif, used deliberately. */
+    .sec-head { margin-bottom: 48px; }
+    .sec-head h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(28px, 3.6vw, 44px); letter-spacing: -0.02em; line-height: 1.1; text-wrap: balance; }
+    .sec-head::after { content: ''; display: block; width: 64px; height: 5px; background: var(--teal); margin-top: 18px; }
 
-    /* Scroll reveal — content visible by default; animates only when JS adds .js */
-    .js [data-r] { opacity: 0; transform: translateY(18px); transition: opacity 0.5s var(--ease), transform 0.5s var(--ease); }
+    /* Scroll reveal — visible by default; animates only when JS adds .js */
+    .js [data-r] { opacity: 0; transform: translateY(16px); transition: opacity 0.5s var(--ease), transform 0.5s var(--ease); }
     .js [data-r].on { opacity: 1; transform: none; }
 
     /* ── NAV ── */
-    header { position: sticky; top: 0; z-index: 100; background: rgba(28,15,18,0.94); border-bottom: 1px solid var(--line); }
-    .nav { max-width: 1080px; margin: 0 auto; padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-    .nav-logo { font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--ink); text-decoration: none; }
-    .nav-logo b { color: var(--coral); }
-    .nav-links { display: flex; list-style: none; gap: 26px; align-items: center; }
-    .nav-links a { font-size: 14px; font-weight: 600; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
+    header { position: sticky; top: 0; z-index: 100; background: rgba(247,250,249,0.95); border-bottom: 2px solid var(--rule); }
+    .nav { max-width: 1140px; margin: 0 auto; padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .nav-logo { font-family: var(--font-display); font-weight: 800; font-size: 17px; color: var(--ink); text-decoration: none; }
+    .nav-logo b { color: var(--teal-deep); }
+    .nav-links { display: flex; list-style: none; gap: 28px; align-items: center; }
+    .nav-links a { font-size: 14.5px; font-weight: 600; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
     .nav-links a:hover, .nav-links a.active { color: var(--ink); }
-    .nav-cta { display: inline-flex; align-items: center; padding: 9px 18px; background: var(--coral); color: var(--bg); font-size: 14px; font-weight: 700; border-radius: 6px; text-decoration: none; transition: background 0.2s; }
-    .nav-cta:hover { background: var(--coral-deep); color: var(--ink); }
+    .nav-cta { display: inline-flex; align-items: center; padding: 10px 20px; background: var(--ink); color: var(--bg); font-size: 14px; font-weight: 700; text-decoration: none; transition: background 0.2s, color 0.2s; }
+    .nav-cta:hover { background: var(--teal); color: var(--teal-ink); }
     .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
     .hamburger span { display: block; width: 22px; height: 2px; background: var(--ink); }
     .mobile-menu { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 30px; }
     .mobile-menu.open { display: flex; }
-    .mobile-menu a { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--ink); text-decoration: none; }
-    .mobile-menu a:hover { color: var(--coral); }
-    .mobile-close { position: absolute; top: 18px; right: 24px; background: none; border: 1px solid var(--line-strong); border-radius: 6px; color: var(--ink); font-size: 22px; cursor: pointer; min-width: 44px; min-height: 44px; }
+    .mobile-menu a { font-family: var(--font-display); font-size: 26px; font-weight: 700; color: var(--ink); text-decoration: none; }
+    .mobile-menu a:hover { color: var(--teal-deep); }
+    .mobile-close { position: absolute; top: 18px; right: 24px; background: none; border: 2px solid var(--rule); color: var(--ink); font-size: 22px; cursor: pointer; min-width: 44px; min-height: 44px; }
 
     /* ── HERO ── */
-    #hero { padding: clamp(70px, 12vh, 130px) 0 80px; border-bottom: 1px solid var(--line); }
-    .hero-grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: 64px; align-items: center; }
-    .hero-status { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; color: var(--gold); border: 1px solid var(--line-strong); border-radius: 6px; padding: 8px 14px; margin-bottom: 32px; }
-    .coin { width: 10px; height: 10px; border-radius: 50%; background: var(--gold); animation: blink 1.6s steps(2, start) infinite; }
-    @keyframes blink { 50% { opacity: 0.25; } }
-    .hero h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(38px, 6.5vw, 76px); line-height: 1.04; letter-spacing: -0.01em; text-wrap: balance; margin-bottom: 22px; }
-    .hero h1 em { font-style: normal; color: var(--coral); }
-    .hero-sub { font-size: clamp(16px, 1.6vw, 19px); color: var(--ink-soft); max-width: 46ch; margin-bottom: 36px; }
-    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
-    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 26px; border-radius: 8px; font-family: var(--font-body); font-size: 15px; font-weight: 700; text-decoration: none; border: none; cursor: pointer; min-height: 48px; transition: background 0.2s, border-color 0.2s, transform 0.2s var(--ease); }
-    .btn-primary { background: var(--coral); color: var(--bg); }
-    .btn-primary:hover { background: var(--coral-deep); color: var(--ink); transform: translateY(-2px); }
-    .btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--line-strong); }
-    .btn-ghost:hover { border-color: var(--coral); }
+    #hero { padding: clamp(80px, 13vh, 150px) 0 0; }
+    .hero-kicker { font-size: 15px; font-weight: 700; letter-spacing: 0.02em; color: var(--ink-soft); margin-bottom: 26px; }
+    .hero-kicker b { color: var(--ink); }
+    .hero h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(42px, 7.2vw, 92px); line-height: 1.02; letter-spacing: -0.025em; text-wrap: balance; max-width: 14ch; margin-bottom: 34px; }
+    .mark { position: relative; white-space: nowrap; }
+    .mark::before { content: ''; position: absolute; inset: 8% -2% 4% -2%; background: var(--teal); z-index: -1; transform-origin: left center; }
+    .js .mark::before { transform: scaleX(0); animation: markIn 0.6s var(--ease) 0.35s forwards; }
+    @keyframes markIn { to { transform: scaleX(1); } }
+    .hero-sub { font-size: clamp(17px, 1.8vw, 21px); color: var(--ink-soft); max-width: 52ch; margin-bottom: 42px; }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 80px; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 15px 30px; font-family: var(--font-body); font-size: 15.5px; font-weight: 700; text-decoration: none; border: 2px solid var(--ink); cursor: pointer; min-height: 50px; transition: background 0.2s, color 0.2s, transform 0.2s var(--ease); }
+    .btn-primary { background: var(--ink); color: var(--bg); }
+    .btn-primary:hover { background: var(--teal); border-color: var(--teal); color: var(--teal-ink); transform: translateY(-2px); }
+    .btn-ghost { background: transparent; color: var(--ink); }
+    .btn-ghost:hover { background: var(--teal-wash); }
 
-    /* Ticket stub — high scores */
-    .ticket { position: relative; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 30px 34px; }
-    .ticket::before, .ticket::after { content: ''; position: absolute; top: 50%; width: 22px; height: 22px; border-radius: 50%; background: var(--bg); border: 1px solid var(--line-strong); transform: translateY(-50%); }
-    .ticket::before { left: -12px; border-left-color: transparent; }
-    .ticket::after { right: -12px; border-right-color: transparent; }
-    .ticket-head { font-family: var(--font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: var(--gold); text-align: center; padding-bottom: 16px; margin-bottom: 8px; border-bottom: 1px dashed var(--line-strong); }
-    .score-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 14px 0; border-bottom: 1px dashed var(--line); }
-    .score-row:last-child { border-bottom: none; }
-    .score-label { font-size: 13px; font-weight: 600; letter-spacing: 0.04em; color: var(--ink-soft); }
-    .score-val { font-family: var(--font-display); font-weight: 700; font-size: clamp(22px, 2.6vw, 30px); color: var(--gold); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    /* ── METRICS strip ── */
+    #metrics { border-top: 2px solid var(--rule); border-bottom: 2px solid var(--rule); }
+    .metrics-grid { max-width: 1140px; margin: 0 auto; padding: 0 32px; display: grid; grid-template-columns: repeat(3, 1fr); }
+    .metric { padding: 48px 36px 44px; border-right: 1px solid var(--rule-soft); }
+    .metric:first-child { padding-left: 0; }
+    .metric:last-child { border-right: none; }
+    .metric-num { font-family: var(--font-display); font-weight: 800; font-size: clamp(40px, 5.5vw, 72px); line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+    .metric-num i { font-style: normal; color: var(--teal-deep); }
+    .metric-label { font-size: 14.5px; font-weight: 600; color: var(--ink-mute); margin-top: 10px; }
 
     /* ── STORY ── */
-    #story { padding: 110px 0; border-bottom: 1px solid var(--line); }
-    .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
-    .story-quote { font-family: var(--font-display); font-weight: 500; font-size: clamp(22px, 3vw, 34px); line-height: 1.3; text-wrap: balance; }
-    .story-quote em { font-style: normal; color: var(--coral); }
-    .story-body { font-size: 16px; color: var(--ink-soft); text-wrap: pretty; }
+    #story { padding: 110px 0; }
+    .story-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 72px; align-items: start; }
+    .story-quote { font-family: var(--font-display); font-weight: 700; font-size: clamp(24px, 3.2vw, 40px); line-height: 1.18; letter-spacing: -0.015em; text-wrap: balance; }
+    .story-quote em { font-style: normal; color: var(--teal-deep); }
+    .story-body { font-size: 16.5px; color: var(--ink-soft); text-wrap: pretty; padding-top: 8px; }
     .story-body p + p { margin-top: 18px; }
     .story-body strong { color: var(--ink); }
 
-    /* ── LEVELS (disciplines) ── */
-    #levels { padding: 110px 0; border-bottom: 1px solid var(--line); }
-    .levels-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-    .level { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 32px; transition: border-color 0.25s, transform 0.25s var(--ease); }
-    .level:hover { border-color: var(--coral); transform: translateY(-4px); }
-    .level-tag { display: inline-block; font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: var(--bg); background: var(--gold); padding: 5px 10px; border-radius: 4px; margin-bottom: 20px; }
-    .level h3 { font-family: var(--font-display); font-weight: 700; font-size: 19px; margin-bottom: 12px; }
-    .level p { font-size: 14.5px; color: var(--ink-soft); margin-bottom: 20px; }
-    .level-tags { display: flex; flex-wrap: wrap; gap: 7px; }
-    .pill { padding: 5px 12px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 100px; font-size: 12.5px; font-weight: 600; color: var(--ink-soft); }
+    /* ── DISCIPLINES — full-width rows ── */
+    #expertise { padding: 0 0 110px; }
+    .disc-rows { border-top: 2px solid var(--rule); }
+    .disc-row { display: grid; grid-template-columns: 1fr 1.4fr; gap: 48px; padding: 44px 0; border-bottom: 2px solid var(--rule); transition: background 0.25s; }
+    .disc-row:hover { background: var(--teal-wash); }
+    .disc-row h3 { font-family: var(--font-display); font-weight: 800; font-size: clamp(24px, 2.8vw, 36px); letter-spacing: -0.02em; line-height: 1.1; }
+    .disc-row h3::after { content: ''; display: inline-block; width: 10px; height: 10px; background: var(--teal); margin-left: 14px; }
+    .disc-right p { font-size: 16px; color: var(--ink-soft); margin-bottom: 18px; max-width: 60ch; }
+    .disc-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill { padding: 6px 14px; background: var(--bg-raise); border: 1px solid var(--rule-soft); border-radius: 100px; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
 
-    /* ── WORK (proof) ── */
-    #work { padding: 110px 0; border-bottom: 1px solid var(--line); }
-    .work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .work-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 34px; }
-    .work-client { font-family: var(--font-display); font-weight: 700; font-size: 20px; margin-bottom: 6px; }
-    .work-role { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: var(--coral); margin-bottom: 18px; }
-    .work-desc { font-size: 15px; color: var(--ink-soft); margin-bottom: 20px; }
-    .work-note { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--ink-mute); border-top: 1px dashed var(--line-strong); padding-top: 16px; width: 100%; }
-    .work-note::before { content: '▸'; color: var(--gold); }
+    /* ── WORK ── */
+    #work { padding: 0 0 110px; }
+    .work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .work-card { background: var(--bg-raise); border: 2px solid var(--rule); padding: 38px; }
+    .work-client { font-family: var(--font-display); font-weight: 800; font-size: 24px; letter-spacing: -0.01em; margin-bottom: 4px; }
+    .work-role { font-size: 13.5px; font-weight: 700; color: var(--teal-deep); margin-bottom: 18px; }
+    .work-desc { font-size: 15.5px; color: var(--ink-soft); margin-bottom: 22px; }
+    .work-note { display: block; font-size: 13.5px; font-weight: 600; color: var(--ink-mute); border-top: 1px solid var(--rule-soft); padding-top: 16px; }
 
     /* ── TOOLKIT ── */
-    #toolkit { padding: 110px 0; border-bottom: 1px solid var(--line); }
-    .kit-row { display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding: 22px 0; border-bottom: 1px dashed var(--line); align-items: start; }
+    #toolkit { padding: 0 0 110px; }
+    .kit-row { display: grid; grid-template-columns: 200px 1fr; gap: 24px; padding: 24px 0; border-bottom: 1px solid var(--rule-soft); align-items: start; }
     .kit-row:last-child { border-bottom: none; }
-    .kit-label { font-size: 13px; font-weight: 700; letter-spacing: 0.05em; color: var(--ink-soft); padding-top: 6px; }
+    .kit-label { font-size: 14px; font-weight: 700; color: var(--ink); padding-top: 7px; }
     .kit-tags { display: flex; flex-wrap: wrap; gap: 9px; }
-    .kit-tag { padding: 8px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 100px; font-size: 13.5px; font-weight: 600; color: var(--ink-soft); transition: border-color 0.2s, color 0.2s; }
-    .kit-tag:hover { border-color: var(--coral); color: var(--ink); }
+    .kit-tag { padding: 8px 18px; background: var(--bg-raise); border: 1px solid var(--rule-soft); border-radius: 100px; font-size: 14px; font-weight: 600; color: var(--ink-soft); transition: border-color 0.2s, background 0.2s, color 0.2s; }
+    .kit-tag:hover { border-color: var(--teal-deep); background: var(--teal-wash); color: var(--ink); }
 
-    /* ── CONTACT ── */
-    #contact { padding: 110px 0 90px; }
-    .contact-lede { font-family: var(--font-display); font-weight: 700; font-size: clamp(24px, 3.6vw, 44px); line-height: 1.15; text-wrap: balance; margin-bottom: 16px; }
-    .contact-lede em { font-style: normal; color: var(--coral); }
-    .contact-email { display: inline-block; font-size: clamp(15px, 2vw, 19px); font-weight: 700; color: var(--gold); text-decoration: none; border-bottom: 2px solid transparent; transition: border-color 0.2s; margin-bottom: 56px; }
-    .contact-email:hover { border-bottom-color: var(--gold); }
+    /* ── CONTACT — teal drench ── */
+    #contact { background: var(--teal); color: var(--teal-ink); padding: 100px 0; }
+    .contact-lede { font-family: var(--font-display); font-weight: 800; font-size: clamp(30px, 4.4vw, 58px); line-height: 1.05; letter-spacing: -0.02em; text-wrap: balance; margin-bottom: 14px; }
+    .contact-email { display: inline-block; font-size: clamp(16px, 2vw, 20px); font-weight: 700; color: var(--teal-ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; margin-bottom: 60px; }
+    .contact-email:hover { text-decoration-thickness: 4px; }
     .contact-cols { display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px; align-items: start; }
     .contact-form { display: flex; flex-direction: column; gap: 18px; }
     .form-group { display: flex; flex-direction: column; gap: 8px; }
-    .form-label { font-size: 13px; font-weight: 700; letter-spacing: 0.05em; color: var(--ink-soft); }
-    .form-ctrl { background: var(--surface); border: 1px solid var(--line-strong); border-radius: 8px; padding: 13px 15px; font-family: var(--font-body); font-size: 15px; color: var(--ink); min-height: 48px; width: 100%; transition: border-color 0.2s; }
+    .form-label { font-size: 13.5px; font-weight: 700; color: var(--teal-ink); }
+    .form-ctrl { background: var(--bg-raise); border: 2px solid var(--teal-ink); padding: 13px 15px; font-family: var(--font-body); font-size: 15.5px; color: var(--ink); min-height: 50px; width: 100%; transition: box-shadow 0.2s; }
     .form-ctrl::placeholder { color: var(--ink-mute); }
-    .form-ctrl:focus { outline: none; border-color: var(--coral); }
+    .form-ctrl:focus { outline: none; box-shadow: 0 0 0 3px rgba(4,48,43,0.35); }
     textarea.form-ctrl { resize: vertical; min-height: 140px; }
     .hp { position: absolute; left: -9999px; }
+    .btn-send { align-self: flex-start; background: var(--ink); color: var(--bg); border: 2px solid var(--ink); padding: 15px 32px; font-family: var(--font-body); font-size: 15.5px; font-weight: 700; cursor: pointer; min-height: 50px; transition: background 0.2s, color 0.2s; }
+    .btn-send:hover { background: var(--teal-ink); }
     .contact-meta { display: flex; flex-direction: column; gap: 26px; padding-top: 6px; }
-    .cm-label { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: var(--ink-mute); margin-bottom: 6px; text-transform: uppercase; }
-    .cm-value { font-size: 15.5px; font-weight: 600; color: var(--ink); text-decoration: none; }
-    .cm-value:hover { color: var(--coral); }
+    .cm-label { font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(4,48,43,0.7); margin-bottom: 6px; }
+    .cm-value { font-size: 16px; font-weight: 700; color: var(--teal-ink); text-decoration: none; }
+    .cm-value:hover { text-decoration: underline; }
 
-    footer { border-top: 1px solid var(--line); }
-    .footer-inner { max-width: 1080px; margin: 0 auto; padding: 26px 32px; display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 13.5px; color: var(--ink-soft); }
-    .footer-logo { font-family: var(--font-display); font-weight: 700; color: var(--ink); }
-    .footer-logo b { color: var(--coral); }
-    footer a { color: var(--ink-soft); text-decoration: none; }
+    footer { border-top: 2px solid var(--rule); }
+    .footer-inner { max-width: 1140px; margin: 0 auto; padding: 26px 32px; display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 14px; color: var(--ink-mute); }
+    .footer-logo { font-family: var(--font-display); font-weight: 800; color: var(--ink); }
+    .footer-logo b { color: var(--teal-deep); }
+    footer a { color: var(--ink-soft); text-decoration: none; font-weight: 600; }
     footer a:hover { color: var(--ink); }
 
     @media (prefers-reduced-motion: reduce) {
-      .coin { animation: none; }
       .js [data-r] { opacity: 1; transform: none; transition: none; }
-      .level:hover, .btn-primary:hover { transform: none; }
+      .js .mark::before { animation: none; transform: none; }
+      .btn-primary:hover { transform: none; }
     }
 
     @media (max-width: 900px) {
-      .hero-grid { grid-template-columns: 1fr; gap: 48px; }
       .story-grid { grid-template-columns: 1fr; gap: 40px; }
+      .disc-row { grid-template-columns: 1fr; gap: 18px; padding: 36px 0; }
       .work-grid { grid-template-columns: 1fr; }
       .contact-cols { grid-template-columns: 1fr; gap: 48px; }
     }
@@ -179,8 +178,11 @@
       .nav { padding: 14px 22px; }
       .nav-links, .nav-cta { display: none; }
       .hamburger { display: flex; }
-      #story, #levels, #work, #toolkit { padding: 80px 0; }
-      #contact { padding: 80px 0 70px; }
+      .metrics-grid { grid-template-columns: 1fr; padding: 0 22px; }
+      .metric { border-right: none; border-bottom: 1px solid var(--rule-soft); padding: 32px 0; }
+      .metric:last-child { border-bottom: none; }
+      #story, #contact { padding: 80px 0; }
+      #expertise, #work, #toolkit { padding-bottom: 80px; }
       .kit-row { grid-template-columns: 1fr; gap: 10px; padding: 18px 0; }
       .kit-label { padding-top: 0; }
       .footer-inner { flex-direction: column; text-align: center; }
@@ -188,7 +190,6 @@
     @media (max-width: 480px) {
       .hero-actions { flex-direction: column; }
       .btn { justify-content: center; }
-      .ticket { padding: 24px 22px; }
     }
   </style>
 </head>
@@ -201,12 +202,12 @@
       <a href="#hero" class="nav-logo">MH<b>.</b></a>
       <ul class="nav-links">
         <li><a href="#story">About</a></li>
-        <li><a href="#levels">What I do</a></li>
+        <li><a href="#expertise">Expertise</a></li>
         <li><a href="#work">Work</a></li>
         <li><a href="#toolkit">Toolkit</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-      <a href="#contact" class="nav-cta">Press start</a>
+      <a href="#contact" class="nav-cta">Let's talk</a>
       <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
@@ -216,7 +217,7 @@
   <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Navigation">
     <button class="mobile-close" id="mobileClose" aria-label="Close menu">✕</button>
     <a href="#story" class="mobile-link">About</a>
-    <a href="#levels" class="mobile-link">What I do</a>
+    <a href="#expertise" class="mobile-link">Expertise</a>
     <a href="#work" class="mobile-link">Work</a>
     <a href="#toolkit" class="mobile-link">Toolkit</a>
     <a href="#contact" class="mobile-link">Contact</a>
@@ -224,30 +225,31 @@
 
   <!-- HERO -->
   <section id="hero" aria-label="Introduction">
-    <div class="wrap hero-grid">
-      <div class="hero">
-        <p class="hero-status"><span class="coin" aria-hidden="true"></span> AVAILABLE FOR NEW PROJECTS</p>
-        <h1>Martin Hendrych plays the <em>numbers game</em>.</h1>
-        <p class="hero-sub">UA &amp; Ad Monetization Specialist for mobile games. I find the right players at the right cost, then build the ad stack that pays for the next ones.</p>
-        <div class="hero-actions">
-          <a href="#contact" class="btn btn-primary">Press start →</a>
-          <a href="https://www.linkedin.com/in/martin-hendrych/" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">LinkedIn ↗</a>
-        </div>
+    <div class="wrap">
+      <p class="hero-kicker"><b>Martin Hendrych</b> · UA &amp; Ad Monetization Specialist · Available for projects</p>
+      <h1>Numbers tell stories. I <span class="mark">read them</span> for a living.</h1>
+      <p class="hero-sub">I scale mobile games through performance user acquisition, then build the ad monetization stack that pays for the next wave of players.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">Get in touch →</a>
+        <a href="https://www.linkedin.com/in/martin-hendrych/" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">LinkedIn ↗</a>
       </div>
-      <div class="ticket" role="list" aria-label="Career high scores">
-        <div class="ticket-head">★ HIGH SCORES ★</div>
-        <div class="score-row" role="listitem">
-          <span class="score-label">AD SPEND MANAGED</span>
-          <span class="score-val">$10M+</span>
-        </div>
-        <div class="score-row" role="listitem">
-          <span class="score-label">GAMING UA EXPERIENCE</span>
-          <span class="score-val">4+ YRS</span>
-        </div>
-        <div class="score-row" role="listitem">
-          <span class="score-label">APPS LAUNCHED</span>
-          <span class="score-val">10+</span>
-        </div>
+    </div>
+  </section>
+
+  <!-- METRICS -->
+  <section id="metrics" aria-label="Career highlights">
+    <div class="metrics-grid">
+      <div class="metric" data-r>
+        <div class="metric-num">$10<i>M+</i></div>
+        <div class="metric-label">Total ad spend managed</div>
+      </div>
+      <div class="metric" data-r>
+        <div class="metric-num">4<i>+ yrs</i></div>
+        <div class="metric-label">Focused gaming UA</div>
+      </div>
+      <div class="metric" data-r>
+        <div class="metric-num">10<i>+</i></div>
+        <div class="metric-label">Mobile apps launched</div>
       </div>
     </div>
   </section>
@@ -256,44 +258,47 @@
   <section id="story" aria-label="About Martin">
     <div class="wrap story-grid">
       <blockquote class="story-quote" data-r>
-        Numbers tell stories. <em>I just know how to read them.</em>
+        Every campaign is <em>a puzzle worth solving.</em>
       </blockquote>
       <div class="story-body" data-r>
         <p>Life-long games and apps enthusiast. With <strong>8 years in marketing</strong> and 4 years of focused gaming experience, I've developed a deep understanding of what drives real growth, from creative strategy to data-driven optimization.</p>
-        <p>I specialize in <strong>scaling mobile games</strong> through performance UA and maximizing revenue through smart ad monetization. Whether it's finding the right audience at the right cost, or building a monetization stack that truly converts, I treat every campaign as a puzzle worth solving.</p>
+        <p>I specialize in <strong>scaling mobile games</strong> through performance UA and maximizing revenue through smart ad monetization: finding the right audience at the right cost, and building a monetization stack that truly converts.</p>
       </div>
     </div>
   </section>
 
-  <!-- LEVELS -->
-  <section id="levels" aria-label="Areas of expertise">
+  <!-- EXPERTISE -->
+  <section id="expertise" aria-label="Areas of expertise">
     <div class="wrap">
-      <div class="sec-head" data-r><h2>What I do, in three levels</h2></div>
-      <div class="levels-grid">
-        <article class="level" data-r>
-          <span class="level-tag">LEVEL 1</span>
+      <div class="sec-head" data-r><h2>Three jobs, one goal: profitable players.</h2></div>
+      <div class="disc-rows">
+        <div class="disc-row" data-r>
           <h3>User Acquisition</h3>
-          <p>Multi-channel UA strategies that scale profitably. From creative testing to bid optimization: finding the right audience at the right cost across every major platform.</p>
-          <div class="level-tags">
-            <span class="pill">Meta Ads</span><span class="pill">Google UAC</span><span class="pill">TikTok Ads</span><span class="pill">Moloco</span><span class="pill">Mintegral</span>
+          <div class="disc-right">
+            <p>Multi-channel UA strategies that scale profitably. From creative testing to bid optimization: finding the right audience at the right cost across every major platform.</p>
+            <div class="disc-tags">
+              <span class="pill">Meta Ads</span><span class="pill">Google UAC</span><span class="pill">TikTok Ads</span><span class="pill">Moloco</span><span class="pill">Mintegral</span>
+            </div>
           </div>
-        </article>
-        <article class="level" data-r>
-          <span class="level-tag">LEVEL 2</span>
+        </div>
+        <div class="disc-row" data-r>
           <h3>Ad Monetization</h3>
-          <p>Maximizing ad revenue through strategic mediation, eCPM optimization and continuous A/B testing. Monetization stacks that convert without harming retention.</p>
-          <div class="level-tags">
-            <span class="pill">AdMob</span><span class="pill">AppLovin MAX</span><span class="pill">LevelPlay</span><span class="pill">DT Exchange</span>
+          <div class="disc-right">
+            <p>Maximizing ad revenue through strategic mediation, eCPM optimization and continuous A/B testing. Monetization stacks that convert without harming retention.</p>
+            <div class="disc-tags">
+              <span class="pill">AdMob</span><span class="pill">AppLovin MAX</span><span class="pill">LevelPlay</span><span class="pill">DT Exchange</span>
+            </div>
           </div>
-        </article>
-        <article class="level" data-r>
-          <span class="level-tag">LEVEL 3</span>
+        </div>
+        <div class="disc-row" data-r>
           <h3>Data &amp; Analytics</h3>
-          <p>Turning raw data into actionable insights. Attribution modeling, competitive intelligence and ASO: what's working, what isn't, and what to do next.</p>
-          <div class="level-tags">
-            <span class="pill">AppsFlyer</span><span class="pill">AppMagic</span><span class="pill">AppTweak</span><span class="pill">Google Analytics</span>
+          <div class="disc-right">
+            <p>Turning raw data into actionable insights. Attribution modeling, competitive intelligence and ASO: what's working, what isn't, and what to do next.</p>
+            <div class="disc-tags">
+              <span class="pill">AppsFlyer</span><span class="pill">AppMagic</span><span class="pill">AppTweak</span><span class="pill">Google Analytics</span>
+            </div>
           </div>
-        </article>
+        </div>
       </div>
     </div>
   </section>
@@ -301,20 +306,20 @@
   <!-- WORK -->
   <section id="work" aria-label="Selected work">
     <div class="wrap">
-      <div class="sec-head" data-r><h2>Selected runs</h2></div>
+      <div class="sec-head" data-r><h2>Selected work</h2></div>
       <div class="work-grid">
         <!-- TODO(Martin): replace the descriptions below with concrete results
              (e.g. "Scaled daily UA spend from $X to $Y at +Z% ROAS in N months")
              once you decide which numbers you can share publicly. -->
         <article class="work-card" data-r>
           <h3 class="work-client">Tinysoft</h3>
-          <p class="work-role">USER ACQUISITION · AD MONETIZATION</p>
+          <p class="work-role">User Acquisition · Ad Monetization</p>
           <p class="work-desc">End-to-end growth for mobile game titles: performance UA across Meta, Google and SDK networks, paired with mediation setup and eCPM optimization on the monetization side.</p>
           <span class="work-note">Full campaign numbers shared on request</span>
         </article>
         <article class="work-card" data-r>
           <h3 class="work-client">Nox Games</h3>
-          <p class="work-role">USER ACQUISITION · ANALYTICS</p>
+          <p class="work-role">User Acquisition · Analytics</p>
           <p class="work-desc">Data-driven UA scaling and attribution: creative testing loops, bid strategy and AppsFlyer-based measurement to keep acquisition profitable as spend grows.</p>
           <span class="work-note">Full campaign numbers shared on request</span>
         </article>
@@ -353,7 +358,7 @@
   <section id="contact" aria-label="Contact">
     <div class="wrap">
       <div data-r>
-        <h2 class="contact-lede">Ready for the <em>next level</em>?</h2>
+        <h2 class="contact-lede">Have a game that should be growing faster?</h2>
         <a href="mailto:martin.naysik.hendrych@gmail.com" class="contact-email">martin.naysik.hendrych@gmail.com</a>
       </div>
       <div class="contact-cols">
@@ -373,7 +378,7 @@
             <label for="msg3" class="form-label">Message</label>
             <textarea id="msg3" name="message" class="form-ctrl" placeholder="Tell me about your project..." rows="5" required></textarea>
           </div>
-          <button type="submit" class="btn btn-primary" style="align-self: flex-start;">Send message →</button>
+          <button type="submit" class="btn-send">Send message →</button>
         </form>
         <div class="contact-meta" data-r>
           <div>
@@ -386,7 +391,7 @@
           </div>
           <div>
             <div class="cm-label">Status</div>
-            <span class="cm-value" style="color: var(--gold);">● Available for new projects</span>
+            <span class="cm-value">Available for new projects</span>
           </div>
         </div>
       </div>
