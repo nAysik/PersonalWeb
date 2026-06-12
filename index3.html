@@ -5,156 +5,198 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Martin Hendrych — UA & Ad Monetization Specialist</title>
   <meta name="description" content="UA & Ad Monetization Specialist helping mobile games scale through data-driven growth strategies.">
+  <!--
+    Techniques applied (epic-design catalogue):
+    - 6-layer depth hero (depth 0-5) with mouse + scroll parallax
+    - Masked line reveal on hero headline (clip overflow + yPercent)
+    - Word-by-word scroll lighting on pinned story section (Apple-style scrub)
+    - Scrubbed metric counters + cascading card stagger
+    - 3D tilt on cards, magnetic CTA (pointer: fine only)
+    - Float loops on decorative chips; clip-path wipe on work cards
+    All effects: GPU-safe props only, progressive enhancement (no-JS = full content),
+    disabled under prefers-reduced-motion and reduced on coarse pointers.
+  -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* ── Tokens ── */
     :root {
-      --bg: #F7FAF9;            /* whitish, faint teal tint */
+      --bg: #FAFCFC;
       --bg-raise: #FFFFFF;
-      --ink: #101817;           /* near-black, teal-tinted */
-      --ink-soft: #3F4E4B;      /* ~8:1 on bg */
-      --ink-mute: #5C6D6A;      /* ~5.2:1 on bg — smallest text only */
-      --teal: #00D1C1;          /* electric teal — fills & graphics */
-      --teal-deep: #0B7E74;     /* small text / links on light */
-      --teal-wash: #E2F6F3;     /* hover tint */
-      --teal-ink: #04302B;      /* text on electric teal */
-      --rule: #101817;
-      --rule-soft: #D4DEDC;
+      --ink: #0C1413;
+      --ink-soft: #3D4D4A;
+      --ink-mute: #5A6B68;
+      --teal: #00D1C1;
+      --teal-deep: #0B7E74;
+      --teal-wash: #E2F6F3;
+      --teal-ink: #04302B;
+      --rule: #0C1413;
+      --rule-soft: #DCE5E3;
+      --shadow: 0 2px 6px rgba(12,20,19,0.06), 0 12px 32px rgba(12,20,19,0.08);
       --font-display: 'Bricolage Grotesque', sans-serif;
       --font-body: 'Hanken Grotesk', sans-serif;
+      --z-nav: 50; --z-menu: 60;
       --ease: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     html { scroll-behavior: smooth; }
-    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-
-    body { font-family: var(--font-body); background: var(--bg); color: var(--ink); line-height: 1.65; font-size: 16.5px; }
+    body { font-family: var(--font-body); background: var(--bg); color: var(--ink); line-height: 1.65; font-size: 16.5px; overflow-x: hidden; }
     ::selection { background: var(--teal); color: var(--teal-ink); }
     :focus-visible { outline: 3px solid var(--teal-deep); outline-offset: 3px; border-radius: 2px; }
 
-    .skip-link { position: absolute; left: -9999px; top: 0; background: var(--ink); color: var(--bg); padding: 10px 18px; font-weight: 700; z-index: 200; }
+    .skip-link { position: absolute; left: -9999px; top: 0; background: var(--ink); color: var(--bg); padding: 10px 18px; font-weight: 700; z-index: 100; }
     .skip-link:focus { left: 12px; top: 12px; }
 
     .wrap { max-width: 1140px; margin: 0 auto; padding: 0 32px; }
 
-    /* Section header system: heading + short teal bar. One motif, used deliberately. */
     .sec-head { margin-bottom: 48px; }
     .sec-head h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(28px, 3.6vw, 44px); letter-spacing: -0.02em; line-height: 1.1; text-wrap: balance; }
     .sec-head::after { content: ''; display: block; width: 64px; height: 5px; background: var(--teal); margin-top: 18px; }
 
-    /* Scroll reveal — visible by default; animates only when JS adds .js */
-    .js [data-r] { opacity: 0; transform: translateY(16px); transition: opacity 0.5s var(--ease), transform 0.5s var(--ease); }
-    .js [data-r].on { opacity: 1; transform: none; }
-
     /* ── NAV ── */
-    header { position: sticky; top: 0; z-index: 100; background: rgba(247,250,249,0.95); border-bottom: 2px solid var(--rule); }
+    header { position: sticky; top: 0; z-index: var(--z-nav); background: rgba(250,252,252,0.94); border-bottom: 1px solid var(--rule-soft); }
     .nav { max-width: 1140px; margin: 0 auto; padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
     .nav-logo { font-family: var(--font-display); font-weight: 800; font-size: 17px; color: var(--ink); text-decoration: none; }
     .nav-logo b { color: var(--teal-deep); }
     .nav-links { display: flex; list-style: none; gap: 28px; align-items: center; }
     .nav-links a { font-size: 14.5px; font-weight: 600; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
     .nav-links a:hover, .nav-links a.active { color: var(--ink); }
-    .nav-cta { display: inline-flex; align-items: center; padding: 10px 20px; background: var(--ink); color: var(--bg); font-size: 14px; font-weight: 700; text-decoration: none; transition: background 0.2s, color 0.2s; }
+    .nav-cta { display: inline-flex; align-items: center; padding: 10px 20px; background: var(--ink); color: var(--bg); font-size: 14px; font-weight: 700; border-radius: 8px; text-decoration: none; transition: background 0.25s, color 0.25s; }
     .nav-cta:hover { background: var(--teal); color: var(--teal-ink); }
     .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
     .hamburger span { display: block; width: 22px; height: 2px; background: var(--ink); }
-    .mobile-menu { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 30px; }
+    .mobile-menu { display: none; position: fixed; inset: 0; background: var(--bg); z-index: var(--z-menu); flex-direction: column; align-items: center; justify-content: center; gap: 30px; }
     .mobile-menu.open { display: flex; }
     .mobile-menu a { font-family: var(--font-display); font-size: 26px; font-weight: 700; color: var(--ink); text-decoration: none; }
     .mobile-menu a:hover { color: var(--teal-deep); }
-    .mobile-close { position: absolute; top: 18px; right: 24px; background: none; border: 2px solid var(--rule); color: var(--ink); font-size: 22px; cursor: pointer; min-width: 44px; min-height: 44px; }
+    .mobile-close { position: absolute; top: 18px; right: 24px; background: none; border: 1px solid var(--rule-soft); border-radius: 8px; color: var(--ink); font-size: 22px; cursor: pointer; min-width: 44px; min-height: 44px; }
 
-    /* ── HERO ── */
-    #hero { padding: clamp(80px, 13vh, 150px) 0 0; }
-    .hero-kicker { font-size: 15px; font-weight: 700; letter-spacing: 0.02em; color: var(--ink-soft); margin-bottom: 26px; }
+    /* ── HERO — 6-layer depth scene ── */
+    #hero { position: relative; min-height: 100svh; display: flex; align-items: center; overflow: hidden; }
+    .layer { position: absolute; inset: 0; pointer-events: none; }
+
+    /* depth-0: dot grid field */
+    .field { background-image: radial-gradient(circle, rgba(12,20,19,0.10) 1px, transparent 1px); background-size: 30px 30px; mask-image: radial-gradient(ellipse 75% 65% at 50% 42%, black 35%, transparent 78%); -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 42%, black 35%, transparent 78%); }
+    /* depth-1: soft glow blobs */
+    .blob { position: absolute; border-radius: 50%; filter: blur(70px); }
+    .blob-a { width: 520px; height: 520px; background: rgba(0,209,193,0.16); top: -160px; right: -120px; }
+    .blob-b { width: 420px; height: 420px; background: rgba(0,209,193,0.10); bottom: -140px; left: -100px; }
+    /* depth-2: floating data chips */
+    .chip { position: absolute; display: flex; align-items: center; gap: 9px; background: var(--bg-raise); border: 1px solid var(--rule-soft); border-radius: 12px; padding: 11px 16px; font-size: 13px; font-weight: 700; color: var(--ink); box-shadow: var(--shadow); white-space: nowrap; }
+    .chip svg { width: 18px; height: 18px; color: var(--teal-deep); flex: none; }
+    .chip b { color: var(--teal-deep); }
+    .chip-1 { top: 22%; right: 12%; }
+    .chip-2 { top: 56%; right: 6%; }
+    .chip-3 { bottom: 18%; right: 22%; }
+    .chip-4 { top: 30%; left: -8px; display: none; }
+    .float-a { animation: floatA 9s ease-in-out infinite; }
+    .float-b { animation: floatB 12s ease-in-out infinite; }
+    .float-c { animation: floatA 11s ease-in-out 1.2s infinite; }
+    @keyframes floatA { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-14px) rotate(1deg); } }
+    @keyframes floatB { 0%,100% { transform: translateY(0) rotate(1.5deg); } 50% { transform: translateY(-20px) rotate(-1deg); } }
+    /* depth-5: tiny foreground squares */
+    .speck { position: absolute; width: 8px; height: 8px; background: var(--teal); }
+    .speck-1 { top: 24%; left: 16%; }
+    .speck-2 { bottom: 26%; right: 38%; width: 6px; height: 6px; opacity: 0.7; }
+    .speck-3 { top: 64%; left: 7%; width: 10px; height: 10px; opacity: 0.5; }
+
+    /* depth-4: hero content */
+    .hero-content { position: relative; z-index: 4; width: 100%; padding: 110px 0 90px; }
+    .hero-kicker { font-size: 15px; font-weight: 700; color: var(--ink-soft); margin-bottom: 26px; }
     .hero-kicker b { color: var(--ink); }
-    .hero h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(42px, 7.2vw, 92px); line-height: 1.02; letter-spacing: -0.025em; text-wrap: balance; max-width: 14ch; margin-bottom: 34px; }
-    .mark { position: relative; white-space: nowrap; }
-    .mark::before { content: ''; position: absolute; inset: 8% -2% 4% -2%; background: var(--teal); z-index: -1; transform-origin: left center; }
-    .js .mark::before { transform: scaleX(0); animation: markIn 0.6s var(--ease) 0.35s forwards; }
-    @keyframes markIn { to { transform: scaleX(1); } }
+    .hero-kicker .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--teal); margin-right: 8px; }
+    .hero-title { font-family: var(--font-display); font-weight: 800; font-size: clamp(44px, 7.4vw, 94px); line-height: 1.0; letter-spacing: -0.025em; margin-bottom: 34px; max-width: 13ch; }
+    .line-mask { display: block; overflow: hidden; padding-block: 0.06em; }
+    .line-mask > span { display: inline-block; will-change: transform; }
+    .hero-title .accent { color: var(--teal-deep); }
     .hero-sub { font-size: clamp(17px, 1.8vw, 21px); color: var(--ink-soft); max-width: 52ch; margin-bottom: 42px; }
-    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 80px; }
-    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 15px 30px; font-family: var(--font-body); font-size: 15.5px; font-weight: 700; text-decoration: none; border: 2px solid var(--ink); cursor: pointer; min-height: 50px; transition: background 0.2s, color 0.2s, transform 0.2s var(--ease); }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 15px 30px; font-family: var(--font-body); font-size: 15.5px; font-weight: 700; text-decoration: none; border: 2px solid var(--ink); border-radius: 10px; cursor: pointer; min-height: 50px; transition: background 0.25s, color 0.25s, border-color 0.25s, box-shadow 0.25s; }
     .btn-primary { background: var(--ink); color: var(--bg); }
-    .btn-primary:hover { background: var(--teal); border-color: var(--teal); color: var(--teal-ink); transform: translateY(-2px); }
-    .btn-ghost { background: transparent; color: var(--ink); }
-    .btn-ghost:hover { background: var(--teal-wash); }
+    .btn-primary:hover { background: var(--teal); border-color: var(--teal); color: var(--teal-ink); box-shadow: 0 8px 28px rgba(0,209,193,0.35); }
+    .btn-ghost { background: rgba(255,255,255,0.7); color: var(--ink); border-color: var(--rule-soft); }
+    .btn-ghost:hover { border-color: var(--ink); }
+    .scroll-hint { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); z-index: 4; display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--ink-mute); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; }
+    .scroll-hint::after { content: ''; width: 2px; height: 34px; background: linear-gradient(to bottom, var(--teal-deep), transparent); }
 
-    /* ── METRICS strip ── */
-    #metrics { border-top: 2px solid var(--rule); border-bottom: 2px solid var(--rule); }
+    /* ── METRICS ── */
+    #metrics { border-top: 1px solid var(--rule-soft); border-bottom: 1px solid var(--rule-soft); background: var(--bg-raise); }
     .metrics-grid { max-width: 1140px; margin: 0 auto; padding: 0 32px; display: grid; grid-template-columns: repeat(3, 1fr); }
-    .metric { padding: 48px 36px 44px; border-right: 1px solid var(--rule-soft); }
+    .metric { padding: 54px 36px 50px; border-right: 1px solid var(--rule-soft); position: relative; }
     .metric:first-child { padding-left: 0; }
     .metric:last-child { border-right: none; }
-    .metric-num { font-family: var(--font-display); font-weight: 800; font-size: clamp(40px, 5.5vw, 72px); line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+    .metric-num { font-family: var(--font-display); font-weight: 800; font-size: clamp(40px, 5.5vw, 74px); line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
     .metric-num i { font-style: normal; color: var(--teal-deep); }
-    .metric-label { font-size: 14.5px; font-weight: 600; color: var(--ink-mute); margin-top: 10px; }
+    .metric-label { font-size: 14.5px; font-weight: 600; color: var(--ink-mute); margin-top: 12px; }
+    .metric-bar { height: 4px; background: var(--teal-wash); margin-top: 22px; overflow: hidden; }
+    .metric-bar i { display: block; height: 100%; background: var(--teal); transform: scaleX(0); transform-origin: left; }
+    .no-js .metric-bar i, .no-anim .metric-bar i { transform: none; }
 
-    /* ── STORY ── */
-    #story { padding: 110px 0; }
-    .story-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 72px; align-items: start; }
-    .story-quote { font-family: var(--font-display); font-weight: 700; font-size: clamp(24px, 3.2vw, 40px); line-height: 1.18; letter-spacing: -0.015em; text-wrap: balance; }
-    .story-quote em { font-style: normal; color: var(--teal-deep); }
-    .story-body { font-size: 16.5px; color: var(--ink-soft); text-wrap: pretty; padding-top: 8px; }
-    .story-body p + p { margin-top: 18px; }
-    .story-body strong { color: var(--ink); }
+    /* ── STORY — pinned word-lighting ── */
+    #story { position: relative; }
+    .story-stage { min-height: 100vh; display: flex; align-items: center; }
+    .story-inner { max-width: 880px; margin: 0 auto; padding: 100px 32px; }
+    .story-label { font-size: 14px; font-weight: 700; color: var(--teal-deep); margin-bottom: 28px; }
+    .story-text { font-family: var(--font-display); font-weight: 700; font-size: clamp(24px, 3.4vw, 44px); line-height: 1.28; letter-spacing: -0.015em; text-wrap: balance; }
+    .story-text .w { color: var(--ink); }
+    .js-anim .story-text .w { color: #C2CECB; }
 
-    /* ── DISCIPLINES — full-width rows ── */
-    #expertise { padding: 0 0 110px; }
-    .disc-rows { border-top: 2px solid var(--rule); }
-    .disc-row { display: grid; grid-template-columns: 1fr 1.4fr; gap: 48px; padding: 44px 0; border-bottom: 2px solid var(--rule); transition: background 0.25s; }
-    .disc-row:hover { background: var(--teal-wash); }
-    .disc-row h3 { font-family: var(--font-display); font-weight: 800; font-size: clamp(24px, 2.8vw, 36px); letter-spacing: -0.02em; line-height: 1.1; }
-    .disc-row h3::after { content: ''; display: inline-block; width: 10px; height: 10px; background: var(--teal); margin-left: 14px; }
-    .disc-right p { font-size: 16px; color: var(--ink-soft); margin-bottom: 18px; max-width: 60ch; }
-    .disc-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-    .pill { padding: 6px 14px; background: var(--bg-raise); border: 1px solid var(--rule-soft); border-radius: 100px; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+    /* ── EXPERTISE ── */
+    #expertise { padding: 120px 0; }
+    .exp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; perspective: 1200px; }
+    .exp-card { background: var(--bg-raise); border: 1px solid var(--rule-soft); border-radius: 16px; padding: 36px; box-shadow: var(--shadow); transform-style: preserve-3d; transition: box-shadow 0.3s; }
+    .exp-card:hover { box-shadow: 0 4px 10px rgba(12,20,19,0.07), 0 22px 48px rgba(12,20,19,0.12); }
+    .exp-icon { width: 52px; height: 52px; border-radius: 12px; background: var(--teal-wash); color: var(--teal-deep); display: flex; align-items: center; justify-content: center; margin-bottom: 22px; }
+    .exp-icon svg { width: 24px; height: 24px; }
+    .exp-card h3 { font-family: var(--font-display); font-weight: 800; font-size: 21px; margin-bottom: 12px; }
+    .exp-card p { font-size: 15px; color: var(--ink-soft); margin-bottom: 22px; }
+    .exp-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill { padding: 6px 14px; background: var(--bg); border: 1px solid var(--rule-soft); border-radius: 100px; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
 
     /* ── WORK ── */
-    #work { padding: 0 0 110px; }
+    #work { padding: 0 0 120px; }
     .work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-    .work-card { background: var(--bg-raise); border: 2px solid var(--rule); padding: 38px; }
-    .work-client { font-family: var(--font-display); font-weight: 800; font-size: 24px; letter-spacing: -0.01em; margin-bottom: 4px; }
+    .work-card { position: relative; background: var(--bg-raise); border: 1px solid var(--rule-soft); border-radius: 16px; padding: 40px; box-shadow: var(--shadow); overflow: hidden; }
+    .work-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: var(--teal); }
+    .work-client { font-family: var(--font-display); font-weight: 800; font-size: 25px; letter-spacing: -0.01em; margin-bottom: 4px; }
     .work-role { font-size: 13.5px; font-weight: 700; color: var(--teal-deep); margin-bottom: 18px; }
     .work-desc { font-size: 15.5px; color: var(--ink-soft); margin-bottom: 22px; }
     .work-note { display: block; font-size: 13.5px; font-weight: 600; color: var(--ink-mute); border-top: 1px solid var(--rule-soft); padding-top: 16px; }
 
     /* ── TOOLKIT ── */
-    #toolkit { padding: 0 0 110px; }
+    #toolkit { padding: 0 0 120px; }
     .kit-row { display: grid; grid-template-columns: 200px 1fr; gap: 24px; padding: 24px 0; border-bottom: 1px solid var(--rule-soft); align-items: start; }
     .kit-row:last-child { border-bottom: none; }
     .kit-label { font-size: 14px; font-weight: 700; color: var(--ink); padding-top: 7px; }
     .kit-tags { display: flex; flex-wrap: wrap; gap: 9px; }
-    .kit-tag { padding: 8px 18px; background: var(--bg-raise); border: 1px solid var(--rule-soft); border-radius: 100px; font-size: 14px; font-weight: 600; color: var(--ink-soft); transition: border-color 0.2s, background 0.2s, color 0.2s; }
-    .kit-tag:hover { border-color: var(--teal-deep); background: var(--teal-wash); color: var(--ink); }
+    .kit-tag { padding: 8px 18px; background: var(--bg-raise); border: 1px solid var(--rule-soft); border-radius: 100px; font-size: 14px; font-weight: 600; color: var(--ink-soft); transition: border-color 0.2s, background 0.2s, color 0.2s, transform 0.2s var(--ease); }
+    .kit-tag:hover { border-color: var(--teal-deep); background: var(--teal-wash); color: var(--ink); transform: translateY(-2px); }
 
-    /* ── CONTACT — teal drench ── */
-    #contact { background: var(--teal); color: var(--teal-ink); padding: 100px 0; }
-    .contact-lede { font-family: var(--font-display); font-weight: 800; font-size: clamp(30px, 4.4vw, 58px); line-height: 1.05; letter-spacing: -0.02em; text-wrap: balance; margin-bottom: 14px; }
-    .contact-email { display: inline-block; font-size: clamp(16px, 2vw, 20px); font-weight: 700; color: var(--teal-ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; margin-bottom: 60px; }
+    /* ── CONTACT ── */
+    #contact { position: relative; padding: 120px 0; background: var(--bg-raise); border-top: 1px solid var(--rule-soft); overflow: hidden; }
+    .contact-blob { position: absolute; width: 560px; height: 560px; border-radius: 50%; background: rgba(0,209,193,0.10); filter: blur(80px); top: -180px; right: -160px; pointer-events: none; }
+    .contact-lede { font-family: var(--font-display); font-weight: 800; font-size: clamp(30px, 4.4vw, 58px); line-height: 1.05; letter-spacing: -0.02em; text-wrap: balance; margin-bottom: 14px; max-width: 18ch; }
+    .contact-lede em { font-style: normal; color: var(--teal-deep); }
+    .contact-email { display: inline-block; font-size: clamp(16px, 2vw, 20px); font-weight: 700; color: var(--teal-deep); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; margin-bottom: 60px; }
     .contact-email:hover { text-decoration-thickness: 4px; }
-    .contact-cols { display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px; align-items: start; }
+    .contact-cols { display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px; align-items: start; position: relative; }
     .contact-form { display: flex; flex-direction: column; gap: 18px; }
     .form-group { display: flex; flex-direction: column; gap: 8px; }
-    .form-label { font-size: 13.5px; font-weight: 700; color: var(--teal-ink); }
-    .form-ctrl { background: var(--bg-raise); border: 2px solid var(--teal-ink); padding: 13px 15px; font-family: var(--font-body); font-size: 15.5px; color: var(--ink); min-height: 50px; width: 100%; transition: box-shadow 0.2s; }
+    .form-label { font-size: 13.5px; font-weight: 700; color: var(--ink); }
+    .form-ctrl { background: var(--bg); border: 1px solid var(--rule-soft); border-radius: 10px; padding: 13px 15px; font-family: var(--font-body); font-size: 15.5px; color: var(--ink); min-height: 50px; width: 100%; transition: border-color 0.2s, box-shadow 0.2s; }
     .form-ctrl::placeholder { color: var(--ink-mute); }
-    .form-ctrl:focus { outline: none; box-shadow: 0 0 0 3px rgba(4,48,43,0.35); }
+    .form-ctrl:focus { outline: none; border-color: var(--teal-deep); box-shadow: 0 0 0 3px rgba(0,209,193,0.18); }
     textarea.form-ctrl { resize: vertical; min-height: 140px; }
     .hp { position: absolute; left: -9999px; }
-    .btn-send { align-self: flex-start; background: var(--ink); color: var(--bg); border: 2px solid var(--ink); padding: 15px 32px; font-family: var(--font-body); font-size: 15.5px; font-weight: 700; cursor: pointer; min-height: 50px; transition: background 0.2s, color 0.2s; }
-    .btn-send:hover { background: var(--teal-ink); }
+    .btn-send { align-self: flex-start; }
     .contact-meta { display: flex; flex-direction: column; gap: 26px; padding-top: 6px; }
-    .cm-label { font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(4,48,43,0.7); margin-bottom: 6px; }
-    .cm-value { font-size: 16px; font-weight: 700; color: var(--teal-ink); text-decoration: none; }
-    .cm-value:hover { text-decoration: underline; }
+    .cm-label { font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 6px; }
+    .cm-value { font-size: 16px; font-weight: 700; color: var(--ink); text-decoration: none; }
+    .cm-value:hover { color: var(--teal-deep); }
 
-    footer { border-top: 2px solid var(--rule); }
+    footer { border-top: 1px solid var(--rule-soft); }
     .footer-inner { max-width: 1140px; margin: 0 auto; padding: 26px 32px; display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 14px; color: var(--ink-mute); }
     .footer-logo { font-family: var(--font-display); font-weight: 800; color: var(--ink); }
     .footer-logo b { color: var(--teal-deep); }
@@ -162,16 +204,15 @@
     footer a:hover { color: var(--ink); }
 
     @media (prefers-reduced-motion: reduce) {
-      .js [data-r] { opacity: 1; transform: none; transition: none; }
-      .js .mark::before { animation: none; transform: none; }
-      .btn-primary:hover { transform: none; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+      html { scroll-behavior: auto !important; }
     }
 
     @media (max-width: 900px) {
-      .story-grid { grid-template-columns: 1fr; gap: 40px; }
-      .disc-row { grid-template-columns: 1fr; gap: 18px; padding: 36px 0; }
       .work-grid { grid-template-columns: 1fr; }
       .contact-cols { grid-template-columns: 1fr; gap: 48px; }
+      .chip-1 { top: auto; bottom: 30%; right: 4%; }
+      .chip-2, .chip-3 { display: none; }
     }
     @media (max-width: 768px) {
       .wrap { padding: 0 22px; }
@@ -179,10 +220,12 @@
       .nav-links, .nav-cta { display: none; }
       .hamburger { display: flex; }
       .metrics-grid { grid-template-columns: 1fr; padding: 0 22px; }
-      .metric { border-right: none; border-bottom: 1px solid var(--rule-soft); padding: 32px 0; }
+      .metric { border-right: none; border-bottom: 1px solid var(--rule-soft); padding: 34px 0; }
       .metric:last-child { border-bottom: none; }
-      #story, #contact { padding: 80px 0; }
-      #expertise, #work, #toolkit { padding-bottom: 80px; }
+      #expertise { padding: 80px 0; }
+      #work, #toolkit { padding-bottom: 80px; }
+      #contact { padding: 80px 0; }
+      .story-inner { padding: 80px 22px; }
       .kit-row { grid-template-columns: 1fr; gap: 10px; padding: 18px 0; }
       .kit-label { padding-top: 0; }
       .footer-inner { flex-direction: column; text-align: center; }
@@ -190,12 +233,13 @@
     @media (max-width: 480px) {
       .hero-actions { flex-direction: column; }
       .btn { justify-content: center; }
+      .chip-1 { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <a href="#hero" class="skip-link">Skip to content</a>
+  <a href="#main-content" class="skip-link">Skip to content</a>
 
   <header>
     <nav class="nav" aria-label="Main navigation">
@@ -207,7 +251,7 @@
         <li><a href="#toolkit">Toolkit</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-      <a href="#contact" class="nav-cta">Let's talk</a>
+      <a href="#contact" class="nav-cta" data-magnetic>Let's talk</a>
       <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
@@ -223,46 +267,80 @@
     <a href="#contact" class="mobile-link">Contact</a>
   </div>
 
-  <!-- HERO -->
-  <section id="hero" aria-label="Introduction">
-    <div class="wrap">
-      <p class="hero-kicker"><b>Martin Hendrych</b> · UA &amp; Ad Monetization Specialist · Available for projects</p>
-      <h1>Numbers tell stories. I <span class="mark">read them</span> for a living.</h1>
-      <p class="hero-sub">I scale mobile games through performance user acquisition, then build the ad monetization stack that pays for the next wave of players.</p>
-      <div class="hero-actions">
-        <a href="#contact" class="btn btn-primary">Get in touch →</a>
-        <a href="https://www.linkedin.com/in/martin-hendrych/" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">LinkedIn ↗</a>
+  <main id="main-content">
+
+  <!-- HERO — layered depth scene -->
+  <section id="hero" class="scene" aria-label="Introduction">
+    <div class="layer field" data-depth="0" aria-hidden="true"></div>
+    <div class="layer" data-depth="1" aria-hidden="true">
+      <div class="blob blob-a" data-px="0.25"></div>
+      <div class="blob blob-b" data-px="0.18"></div>
+    </div>
+    <div class="layer" data-depth="2" aria-hidden="true">
+      <div class="chip chip-1 float-a" data-px="0.55">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+        ROAS <b>trending up</b>
+      </div>
+      <div class="chip chip-2 float-b" data-px="0.8">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        eCPM <b>optimized</b>
+      </div>
+      <div class="chip chip-3 float-c" data-px="0.4">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        CPI <b>under target</b>
       </div>
     </div>
+    <div class="layer" data-depth="5" aria-hidden="true">
+      <div class="speck speck-1" data-px="1.2"></div>
+      <div class="speck speck-2" data-px="1.4"></div>
+      <div class="speck speck-3" data-px="1.1"></div>
+    </div>
+
+    <div class="hero-content" data-depth="4">
+      <div class="wrap">
+        <p class="hero-kicker"><span class="dot" aria-hidden="true"></span><b>Martin Hendrych</b> · UA &amp; Ad Monetization Specialist · Available for projects</p>
+        <h1 class="hero-title">
+          <span class="line-mask"><span>Numbers tell</span></span>
+          <span class="line-mask"><span>stories. I <span class="accent">read</span></span></span>
+          <span class="line-mask"><span><span class="accent">them</span> for a living.</span></span>
+        </h1>
+        <p class="hero-sub">I scale mobile games through performance user acquisition, then build the ad monetization stack that pays for the next wave of players.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary" data-magnetic>Get in touch →</a>
+          <a href="https://www.linkedin.com/in/martin-hendrych/" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">LinkedIn ↗</a>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint" aria-hidden="true">SCROLL</div>
   </section>
 
   <!-- METRICS -->
   <section id="metrics" aria-label="Career highlights">
     <div class="metrics-grid">
-      <div class="metric" data-r>
-        <div class="metric-num">$10<i>M+</i></div>
+      <div class="metric">
+        <div class="metric-num">$<span class="count" data-target="10">10</span><i>M+</i></div>
         <div class="metric-label">Total ad spend managed</div>
+        <div class="metric-bar" aria-hidden="true"><i data-fill="0.92"></i></div>
       </div>
-      <div class="metric" data-r>
-        <div class="metric-num">4<i>+ yrs</i></div>
+      <div class="metric">
+        <div class="metric-num"><span class="count" data-target="4">4</span><i>+ yrs</i></div>
         <div class="metric-label">Focused gaming UA</div>
+        <div class="metric-bar" aria-hidden="true"><i data-fill="0.6"></i></div>
       </div>
-      <div class="metric" data-r>
-        <div class="metric-num">10<i>+</i></div>
+      <div class="metric">
+        <div class="metric-num"><span class="count" data-target="10">10</span><i>+</i></div>
         <div class="metric-label">Mobile apps launched</div>
+        <div class="metric-bar" aria-hidden="true"><i data-fill="0.78"></i></div>
       </div>
     </div>
   </section>
 
-  <!-- STORY -->
+  <!-- STORY — pinned, words light up on scroll -->
   <section id="story" aria-label="About Martin">
-    <div class="wrap story-grid">
-      <blockquote class="story-quote" data-r>
-        Every campaign is <em>a puzzle worth solving.</em>
-      </blockquote>
-      <div class="story-body" data-r>
-        <p>Life-long games and apps enthusiast. With <strong>8 years in marketing</strong> and 4 years of focused gaming experience, I've developed a deep understanding of what drives real growth, from creative strategy to data-driven optimization.</p>
-        <p>I specialize in <strong>scaling mobile games</strong> through performance UA and maximizing revenue through smart ad monetization: finding the right audience at the right cost, and building a monetization stack that truly converts.</p>
+    <div class="story-stage">
+      <div class="story-inner">
+        <p class="story-label">About</p>
+        <p class="story-text" id="storyText">Life-long games and apps enthusiast with 8 years in marketing and 4 years of focused gaming experience. I scale mobile games through performance UA and maximize revenue through smart ad monetization. Every campaign is a puzzle worth solving.</p>
       </div>
     </div>
   </section>
@@ -270,35 +348,38 @@
   <!-- EXPERTISE -->
   <section id="expertise" aria-label="Areas of expertise">
     <div class="wrap">
-      <div class="sec-head" data-r><h2>Three jobs, one goal: profitable players.</h2></div>
-      <div class="disc-rows">
-        <div class="disc-row" data-r>
+      <div class="sec-head"><h2>Three jobs, one goal: profitable players.</h2></div>
+      <div class="exp-grid">
+        <article class="exp-card" data-tilt>
+          <div class="exp-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+          </div>
           <h3>User Acquisition</h3>
-          <div class="disc-right">
-            <p>Multi-channel UA strategies that scale profitably. From creative testing to bid optimization: finding the right audience at the right cost across every major platform.</p>
-            <div class="disc-tags">
-              <span class="pill">Meta Ads</span><span class="pill">Google UAC</span><span class="pill">TikTok Ads</span><span class="pill">Moloco</span><span class="pill">Mintegral</span>
-            </div>
+          <p>Multi-channel UA strategies that scale profitably. From creative testing to bid optimization: the right audience at the right cost on every major platform.</p>
+          <div class="exp-tags">
+            <span class="pill">Meta Ads</span><span class="pill">Google UAC</span><span class="pill">TikTok Ads</span><span class="pill">Moloco</span><span class="pill">Mintegral</span>
           </div>
-        </div>
-        <div class="disc-row" data-r>
+        </article>
+        <article class="exp-card" data-tilt>
+          <div class="exp-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
           <h3>Ad Monetization</h3>
-          <div class="disc-right">
-            <p>Maximizing ad revenue through strategic mediation, eCPM optimization and continuous A/B testing. Monetization stacks that convert without harming retention.</p>
-            <div class="disc-tags">
-              <span class="pill">AdMob</span><span class="pill">AppLovin MAX</span><span class="pill">LevelPlay</span><span class="pill">DT Exchange</span>
-            </div>
+          <p>Maximizing ad revenue through strategic mediation, eCPM optimization and continuous A/B testing. Stacks that convert without harming retention.</p>
+          <div class="exp-tags">
+            <span class="pill">AdMob</span><span class="pill">AppLovin MAX</span><span class="pill">LevelPlay</span><span class="pill">DT Exchange</span>
           </div>
-        </div>
-        <div class="disc-row" data-r>
+        </article>
+        <article class="exp-card" data-tilt>
+          <div class="exp-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
           <h3>Data &amp; Analytics</h3>
-          <div class="disc-right">
-            <p>Turning raw data into actionable insights. Attribution modeling, competitive intelligence and ASO: what's working, what isn't, and what to do next.</p>
-            <div class="disc-tags">
-              <span class="pill">AppsFlyer</span><span class="pill">AppMagic</span><span class="pill">AppTweak</span><span class="pill">Google Analytics</span>
-            </div>
+          <p>Turning raw data into actionable insights. Attribution modeling, competitive intelligence and ASO: what's working, what isn't, what's next.</p>
+          <div class="exp-tags">
+            <span class="pill">AppsFlyer</span><span class="pill">AppMagic</span><span class="pill">AppTweak</span><span class="pill">Google Analytics</span>
           </div>
-        </div>
+        </article>
       </div>
     </div>
   </section>
@@ -306,18 +387,18 @@
   <!-- WORK -->
   <section id="work" aria-label="Selected work">
     <div class="wrap">
-      <div class="sec-head" data-r><h2>Selected work</h2></div>
+      <div class="sec-head"><h2>Selected work</h2></div>
       <div class="work-grid">
         <!-- TODO(Martin): replace the descriptions below with concrete results
              (e.g. "Scaled daily UA spend from $X to $Y at +Z% ROAS in N months")
              once you decide which numbers you can share publicly. -->
-        <article class="work-card" data-r>
+        <article class="work-card" data-clip>
           <h3 class="work-client">Tinysoft</h3>
           <p class="work-role">User Acquisition · Ad Monetization</p>
           <p class="work-desc">End-to-end growth for mobile game titles: performance UA across Meta, Google and SDK networks, paired with mediation setup and eCPM optimization on the monetization side.</p>
           <span class="work-note">Full campaign numbers shared on request</span>
         </article>
-        <article class="work-card" data-r>
+        <article class="work-card" data-clip>
           <h3 class="work-client">Nox Games</h3>
           <p class="work-role">User Acquisition · Analytics</p>
           <p class="work-desc">Data-driven UA scaling and attribution: creative testing loops, bid strategy and AppsFlyer-based measurement to keep acquisition profitable as spend grows.</p>
@@ -330,8 +411,8 @@
   <!-- TOOLKIT -->
   <section id="toolkit" aria-label="Skills and tools">
     <div class="wrap">
-      <div class="sec-head" data-r><h2>Platforms &amp; tools</h2></div>
-      <div data-r>
+      <div class="sec-head"><h2>Platforms &amp; tools</h2></div>
+      <div>
         <div class="kit-row">
           <span class="kit-label">User Acquisition</span>
           <div class="kit-tags">
@@ -356,13 +437,14 @@
 
   <!-- CONTACT -->
   <section id="contact" aria-label="Contact">
+    <div class="contact-blob" aria-hidden="true"></div>
     <div class="wrap">
-      <div data-r>
-        <h2 class="contact-lede">Have a game that should be growing faster?</h2>
+      <div>
+        <h2 class="contact-lede">Have a game that should be <em>growing faster?</em></h2>
         <a href="mailto:martin.naysik.hendrych@gmail.com" class="contact-email">martin.naysik.hendrych@gmail.com</a>
       </div>
       <div class="contact-cols">
-        <form class="contact-form" action="https://formsubmit.co/martin.naysik.hendrych@gmail.com" method="POST" data-r>
+        <form class="contact-form" action="https://formsubmit.co/martin.naysik.hendrych@gmail.com" method="POST">
           <input type="hidden" name="_subject" value="New message from martinhendrych.com">
           <input type="hidden" name="_captcha" value="false">
           <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -378,9 +460,9 @@
             <label for="msg3" class="form-label">Message</label>
             <textarea id="msg3" name="message" class="form-ctrl" placeholder="Tell me about your project..." rows="5" required></textarea>
           </div>
-          <button type="submit" class="btn-send">Send message →</button>
+          <button type="submit" class="btn btn-primary btn-send" data-magnetic>Send message →</button>
         </form>
-        <div class="contact-meta" data-r>
+        <div class="contact-meta">
           <div>
             <div class="cm-label">Email</div>
             <a href="mailto:martin.naysik.hendrych@gmail.com" class="cm-value">martin.naysik.hendrych@gmail.com</a>
@@ -391,12 +473,14 @@
           </div>
           <div>
             <div class="cm-label">Status</div>
-            <span class="cm-value">Available for new projects</span>
+            <span class="cm-value" style="color: var(--teal-deep);">Available for new projects</span>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  </main>
 
   <footer>
     <div class="footer-inner">
@@ -406,22 +490,128 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script>
-    // Enable scroll-reveal only when JS runs — content is visible by default
-    document.documentElement.classList.add('js');
-
+    // ── Progressive enhancement gates ──────────────────────────────────────
+    // Content is fully visible without JS or GSAP; animations are layered on
+    // only when motion is allowed and the libraries actually loaded.
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const finePointer  = window.matchMedia('(pointer: fine)').matches;
+    const hasGsap      = typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
+    const animate      = hasGsap && !reduceMotion;
 
-    if (!reduceMotion && 'IntersectionObserver' in window) {
-      const ro = new IntersectionObserver(entries => {
-        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); ro.unobserve(e.target); } });
-      }, { threshold: 0.12 });
-      document.querySelectorAll('[data-r]').forEach(el => ro.observe(el));
+    if (animate) {
+      document.documentElement.classList.add('js-anim');
+      gsap.registerPlugin(ScrollTrigger);
+
+      // 1 ▸ Hero entrance — masked line reveal + chip pop-in
+      gsap.from('.line-mask > span', { yPercent: 110, duration: 0.9, ease: 'power4.out', stagger: 0.12, delay: 0.15 });
+      gsap.from('.hero-kicker, .hero-sub, .hero-actions', { opacity: 0, y: 18, duration: 0.7, ease: 'power3.out', stagger: 0.1, delay: 0.5 });
+      gsap.from('.chip', { opacity: 0, scale: 0.7, duration: 0.7, ease: 'back.out(1.8)', stagger: 0.14, delay: 0.8 });
+
+      // 2 ▸ Hero parallax — scroll (all) + mouse (fine pointers)
+      document.querySelectorAll('#hero [data-px]').forEach(el => {
+        const f = parseFloat(el.dataset.px);
+        gsap.to(el, {
+          yPercent: -34 * f,
+          ease: 'none',
+          scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+        });
+      });
+      if (finePointer) {
+        const hero = document.getElementById('hero');
+        const movers = [...document.querySelectorAll('#hero [data-px]')].map(el => ({
+          x: gsap.quickTo(el, 'x', { duration: 0.7, ease: 'power3.out' }),
+          y: gsap.quickTo(el, 'y', { duration: 0.7, ease: 'power3.out' }),
+          f: parseFloat(el.dataset.px)
+        }));
+        hero.addEventListener('mousemove', e => {
+          const r = hero.getBoundingClientRect();
+          const nx = (e.clientX - r.left) / r.width - 0.5;
+          const ny = (e.clientY - r.top) / r.height - 0.5;
+          movers.forEach(m => { m.x(nx * 46 * m.f); m.y(ny * 30 * m.f); });
+        }, { passive: true });
+      }
+
+      // 3 ▸ Metrics — scrubbed counters + bar fills
+      document.querySelectorAll('.count').forEach(el => {
+        const target = +el.dataset.target;
+        const obj = { v: 0 };
+        gsap.to(obj, {
+          v: target, duration: 1.4, ease: 'power2.out',
+          scrollTrigger: { trigger: el, start: 'top 85%' },
+          onUpdate: () => { el.textContent = Math.round(obj.v); }
+        });
+      });
+      document.querySelectorAll('.metric-bar i').forEach(el => {
+        gsap.to(el, {
+          scaleX: parseFloat(el.dataset.fill), duration: 1.2, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 90%' }
+        });
+      });
+      gsap.from('.metric', {
+        opacity: 0, y: 24, duration: 0.7, ease: 'power3.out', stagger: 0.12,
+        scrollTrigger: { trigger: '#metrics', start: 'top 80%' }
+      });
+
+      // 4 ▸ Story — pin + word-by-word scroll lighting (Apple style)
+      const storyText = document.getElementById('storyText');
+      storyText.innerHTML = storyText.textContent.trim().split(/\s+/)
+        .map(w => `<span class="w">${w}</span>`).join(' ');
+      gsap.to('#storyText .w', {
+        color: getComputedStyle(document.documentElement).getPropertyValue('--ink').trim(),
+        stagger: 0.06,
+        ease: 'none',
+        scrollTrigger: { trigger: '#story', start: 'top top', end: '+=120%', scrub: 0.4, pin: '.story-stage' }
+      });
+
+      // 5 ▸ Section reveals — cascading stagger
+      gsap.utils.toArray('.sec-head, .exp-card, .kit-row, .contact-lede, .contact-email, .contact-form, .contact-meta').forEach(el => {
+        gsap.from(el, {
+          opacity: 0, y: 28, duration: 0.75, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 86%' }
+        });
+      });
+
+      // 6 ▸ Work cards — clip-path wipe
+      gsap.utils.toArray('[data-clip]').forEach((el, i) => {
+        gsap.from(el, {
+          clipPath: 'inset(0 100% 0 0)', opacity: 0.4, duration: 0.9, ease: 'power4.out', delay: i * 0.12,
+          scrollTrigger: { trigger: el, start: 'top 84%' }
+        });
+      });
+
+      // 7 ▸ Card tilt (fine pointers only)
+      if (finePointer) {
+        document.querySelectorAll('[data-tilt]').forEach(card => {
+          const rx = gsap.quickTo(card, 'rotationX', { duration: 0.5, ease: 'power3.out' });
+          const ry = gsap.quickTo(card, 'rotationY', { duration: 0.5, ease: 'power3.out' });
+          card.addEventListener('mousemove', e => {
+            const r = card.getBoundingClientRect();
+            ry(((e.clientX - r.left) / r.width - 0.5) * 10);
+            rx(-((e.clientY - r.top) / r.height - 0.5) * 8);
+          }, { passive: true });
+          card.addEventListener('mouseleave', () => { rx(0); ry(0); }, { passive: true });
+        });
+
+        // 8 ▸ Magnetic buttons
+        document.querySelectorAll('[data-magnetic]').forEach(btn => {
+          const mx = gsap.quickTo(btn, 'x', { duration: 0.4, ease: 'power3.out' });
+          const my = gsap.quickTo(btn, 'y', { duration: 0.4, ease: 'power3.out' });
+          btn.addEventListener('mousemove', e => {
+            const r = btn.getBoundingClientRect();
+            mx((e.clientX - r.left - r.width / 2) * 0.25);
+            my((e.clientY - r.top - r.height / 2) * 0.35);
+          }, { passive: true });
+          btn.addEventListener('mouseleave', () => { mx(0); my(0); }, { passive: true });
+        });
+      }
     } else {
-      document.querySelectorAll('[data-r]').forEach(el => el.classList.add('on'));
+      document.documentElement.classList.add('no-anim');
     }
 
-    // Mobile menu
+    // ── Mobile menu (always active) ────────────────────────────────────────
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
     const mobileClose = document.getElementById('mobileClose');
@@ -447,7 +637,7 @@
       });
     });
 
-    // Active nav highlight
+    // ── Active nav highlight ───────────────────────────────────────────────
     const navAs = document.querySelectorAll('.nav-links a');
     const so = new IntersectionObserver(entries => {
       entries.forEach(e => {
