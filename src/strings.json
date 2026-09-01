@@ -2,10 +2,10 @@
   "_note": "Every user-visible string, per language. Edit copy here, then run: python src/build.py",
 
   "en": {
-    "meta_title": "Martin Hendrych — UA & Ad Monetization Specialist",
-    "meta_desc": "UA & Ad Monetization Specialist helping mobile games scale through data-driven growth strategies.",
+    "meta_title": "Martin Hendrych — UA &amp; Ad Monetization Specialist",
+    "meta_desc": "UA &amp; Ad Monetization Specialist helping mobile games &amp; apps scale through data-driven growth strategies.",
     "og_title": "Martin Hendrych — UA &amp; Ad Monetization Specialist",
-    "og_desc": "I scale mobile games through performance user acquisition, then build the ad monetization stack that pays for the next wave of players.",
+    "og_desc": "I scale mobile games &amp; apps through performance user acquisition, then build the ad monetization stack that pays for the next wave of users.",
 
     "a11y_skip": "Skip to content",
     "a11y_nav": "Main navigation",
@@ -35,7 +35,7 @@
     "hero_l1": "Numbers tell",
     "hero_l2": "stories. I <span class=\"accent\">read</span>",
     "hero_l3": "<span class=\"accent\">them</span> for a living.",
-    "hero_sub": "I scale mobile games through performance user acquisition, then build the ad monetization stack that pays for the next wave of players.",
+    "hero_sub": "I scale mobile games &amp; apps through performance user acquisition, then build the ad monetization stack that pays for the next wave of players.",
     "hero_btn": "Get in touch →",
     "scroll_hint": "SCROLL",
 
@@ -87,9 +87,9 @@
 
   "cs": {
     "meta_title": "Martin Hendrych — specialista na UA a ad monetizaci",
-    "meta_desc": "Specialista na UA a ad monetizaci. Pomáhám mobilním hrám růst díky datům a výkonnostním kampaním.",
-    "og_title": "Martin Hendrych — specialista na UA a ad monetizaci",
-    "og_desc": "Škáluji mobilní hry přes výkonnostní user acquisition a stavím ad monetization stack, který zaplatí další vlnu hráčů.",
+    "meta_desc": "Specialista na UA a Ads monetizaci. Pomáhám mobilním hrám a aplikacím růst.",
+    "og_title": "Martin Hendrych — specialista na UA a Ads monetizaci",
+    "og_desc": "Škáluji mobilní hry a aplikace přes výkonnostní user acquisition. Stavím ad monetization stack, který zaplatí další vlnu uživatelů.",
 
     "a11y_skip": "Přeskočit na obsah",
     "a11y_nav": "Hlavní navigace",
@@ -115,7 +115,7 @@
     "chip_roas": "roste",
     "chip_ecpm": "optimalizované",
     "chip_cpi": "pod cílem",
-    "hero_kicker": "specialista na UA a ad monetizaci · k dispozici pro projekty",
+    "hero_kicker": "specialista na UA a Ads monetizaci · k dispozici pro projekty",
     "hero_l1": "Čísla vyprávějí",
     "hero_l2": "příběhy. Já je",
     "hero_l3": "<span class=\"accent\">čtu</span> profesionálně.",
@@ -126,14 +126,14 @@
     "m1_label": "Celkem spravovaný ad spend",
     "m2_unit": "+ roky",
     "m2_label": "Zaměření na herní UA",
-    "m3_label": "Vydaných mobilních aplikací",
+    "m3_label": "Vydaných mobilních aplikací a her",
 
     "story_label": "O mně",
     "story_text": "Odmalička mě baví hry a aplikace. Osm let v marketingu, z toho čtyři roky naplno v gamingu. Škáluji mobilní hry přes výkonnostní UA a maximalizuji příjmy chytrou ad monetizací. Každá kampaň je hlavolam, který stojí za rozlousknutí.",
 
     "exp_heading": "Tři role, jeden cíl: profitabilita.",
     "exp1_h": "User Acquisition",
-    "exp1_p": "Multikanálové UA strategie, které škálují se ziskem. Od testování kreativ po bid optimalizaci: správné publikum za správnou cenu na všech hlavních platformách.",
+    "exp1_p": "Multichannel UA strategie, které škálují se ziskem. Od testování kreativ po bid optimalizaci: správné publikum za správnou cenu na všech hlavních platformách.",
     "exp2_h": "Ad Monetization",
     "exp2_p": "Maximalizace příjmů z reklamy přes strategickou mediaci, optimalizaci eCPM a průběžné A/B testování. Stacky, které vydělávají, aniž by ubíraly na retenci.",
     "exp3_h": "Data a analytika",
