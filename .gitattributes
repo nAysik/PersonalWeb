@@ -1,0 +1,3 @@
+# Keep the deployed site LF-only — Cloudflare Pages parses _headers line by line.
+dist/** text eol=lf
+dist/*.png binary

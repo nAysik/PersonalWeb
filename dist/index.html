@@ -5,17 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Martin Hendrych — UA & Ad Monetization Specialist</title>
   <meta name="description" content="UA & Ad Monetization Specialist helping mobile games scale through data-driven growth strategies.">
-  <!--
-    Techniques applied (epic-design catalogue):
-    - 6-layer depth hero (depth 0-5) with mouse + scroll parallax
-    - Masked line reveal on hero headline (clip overflow + yPercent)
-    - Word-by-word scroll lighting on pinned story section (Apple-style scrub)
-    - Scrubbed metric counters + cascading card stagger
-    - 3D tilt on cards, magnetic CTA (pointer: fine only)
-    - Float loops on decorative chips; clip-path wipe on work cards
-    All effects: GPU-safe props only, progressive enhancement (no-JS = full content),
-    disabled under prefers-reduced-motion and reduced on coarse pointers.
-  -->
+  <link rel="canonical" href="https://hendrych.me/">
+  <meta name="theme-color" content="#FAFCFC">
+  <meta name="author" content="Martin Hendrych">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://hendrych.me/">
+  <meta property="og:title" content="Martin Hendrych — UA &amp; Ad Monetization Specialist">
+  <meta property="og:description" content="I scale mobile games through performance user acquisition, then build the ad monetization stack that pays for the next wave of players.">
+  <meta property="og:image" content="https://hendrych.me/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Martin Hendrych — UA &amp; Ad Monetization Specialist">
+  <meta name="twitter:description" content="I scale mobile games through performance user acquisition, then build the ad monetization stack that pays for the next wave of players.">
+  <meta name="twitter:image" content="https://hendrych.me/og.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
@@ -157,12 +163,12 @@
 
     /* ── WORK ── */
     #work { padding: 0 0 120px; }
-    .work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-    .work-card { position: relative; background: var(--bg-raise); border: 1px solid var(--rule-soft); border-radius: 16px; padding: 40px; box-shadow: var(--shadow); overflow: hidden; }
+    .work-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+    .work-card { position: relative; display: grid; grid-template-columns: minmax(200px, 260px) 1fr; gap: 48px; align-items: start; background: var(--bg-raise); border: 1px solid var(--rule-soft); border-radius: 16px; padding: 44px 40px; box-shadow: var(--shadow); overflow: hidden; }
     .work-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: var(--teal); }
-    .work-client { font-family: var(--font-display); font-weight: 800; font-size: 25px; letter-spacing: -0.01em; margin-bottom: 4px; }
-    .work-role { font-size: 13.5px; font-weight: 700; color: var(--teal-deep); margin-bottom: 18px; }
-    .work-desc { font-size: 15.5px; color: var(--ink-soft); margin-bottom: 22px; }
+    .work-client { font-family: var(--font-display); font-weight: 800; font-size: 27px; letter-spacing: -0.01em; margin-bottom: 6px; }
+    .work-role { font-size: 13.5px; font-weight: 700; color: var(--teal-deep); }
+    .work-desc { font-size: 16px; color: var(--ink-soft); margin-bottom: 22px; }
     .work-note { display: block; font-size: 13.5px; font-weight: 600; color: var(--ink-mute); border-top: 1px solid var(--rule-soft); padding-top: 16px; }
 
     /* ── TOOLKIT ── */
@@ -209,10 +215,12 @@
     }
 
     @media (max-width: 900px) {
-      .work-grid { grid-template-columns: 1fr; }
       .contact-cols { grid-template-columns: 1fr; gap: 48px; }
       .chip-1 { top: auto; bottom: 30%; right: 4%; }
       .chip-2, .chip-3 { display: none; }
+    }
+    @media (max-width: 860px) {
+      .work-card { grid-template-columns: 1fr; gap: 22px; padding: 36px 28px; }
     }
     @media (max-width: 768px) {
       .wrap { padding: 0 22px; }
@@ -389,20 +397,15 @@
     <div class="wrap">
       <div class="sec-head"><h2>Selected work</h2></div>
       <div class="work-grid">
-        <!-- TODO(Martin): replace the descriptions below with concrete results
-             (e.g. "Scaled daily UA spend from $X to $Y at +Z% ROAS in N months")
-             once you decide which numbers you can share publicly. -->
         <article class="work-card" data-clip>
-          <h3 class="work-client">Tinysoft</h3>
-          <p class="work-role">User Acquisition · Ad Monetization</p>
-          <p class="work-desc">End-to-end growth for mobile game titles: performance UA across Meta, Google and SDK networks, paired with mediation setup and eCPM optimization on the monetization side.</p>
-          <span class="work-note">Full campaign numbers shared on request</span>
-        </article>
-        <article class="work-card" data-clip>
-          <h3 class="work-client">Nox Games</h3>
-          <p class="work-role">User Acquisition · Analytics</p>
-          <p class="work-desc">Data-driven UA scaling and attribution: creative testing loops, bid strategy and AppsFlyer-based measurement to keep acquisition profitable as spend grows.</p>
-          <span class="work-note">Full campaign numbers shared on request</span>
+          <div class="work-head">
+            <h3 class="work-client">Tinysoft</h3>
+            <p class="work-role">User Acquisition · Ad Monetization</p>
+          </div>
+          <div class="work-body">
+            <p class="work-desc">End-to-end growth for mobile game titles: performance UA across Meta, Google and SDK networks, paired with mediation setup and eCPM optimization on the monetization side.</p>
+            <span class="work-note">Full campaign numbers shared on request</span>
+          </div>
         </article>
       </div>
     </div>
@@ -445,7 +448,7 @@
       </div>
       <div class="contact-cols">
         <form class="contact-form" action="https://formsubmit.co/martin.naysik.hendrych@gmail.com" method="POST">
-          <input type="hidden" name="_subject" value="New message from martinhendrych.com">
+          <input type="hidden" name="_subject" value="New message from hendrych.me">
           <input type="hidden" name="_captcha" value="false">
           <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
           <div class="form-group">
