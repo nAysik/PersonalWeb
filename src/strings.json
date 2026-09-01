@@ -35,14 +35,14 @@
     "hero_l1": "Numbers tell",
     "hero_l2": "stories. I <span class=\"accent\">read</span>",
     "hero_l3": "<span class=\"accent\">them</span> for a living.",
-    "hero_sub": "I scale mobile games &amp; apps through performance user acquisition, then build the ad monetization stack that pays for the next wave of players.",
+    "hero_sub": "I scale mobile games &amp; apps through performance user acquisition, then build the ad monetization stack that pays for the next wave of users.",
     "hero_btn": "Get in touch →",
     "scroll_hint": "SCROLL",
 
     "m1_label": "Total ad spend managed",
     "m2_unit": "+ yrs",
     "m2_label": "Focused gaming UA",
-    "m3_label": "Mobile apps launched",
+    "m3_label": "Mobile apps &amp; games launched",
 
     "story_label": "About",
     "story_text": "Life-long games and apps enthusiast with 8 years in marketing and 4 years of focused gaming experience. I scale mobile games through performance UA and maximize revenue through smart ad monetization. Every campaign is a puzzle worth solving.",
@@ -86,7 +86,7 @@
   },
 
   "cs": {
-    "meta_title": "Martin Hendrych — specialista na UA a ad monetizaci",
+    "meta_title": "Martin Hendrych — specialista na UA a Ads monetizaci",
     "meta_desc": "Specialista na UA a Ads monetizaci. Pomáhám mobilním hrám a aplikacím růst.",
     "og_title": "Martin Hendrych — specialista na UA a Ads monetizaci",
     "og_desc": "Škáluji mobilní hry a aplikace přes výkonnostní user acquisition. Stavím ad monetization stack, který zaplatí další vlnu uživatelů.",
@@ -119,7 +119,7 @@
     "hero_l1": "Čísla vyprávějí",
     "hero_l2": "příběhy. Já je",
     "hero_l3": "<span class=\"accent\">čtu</span> profesionálně.",
-    "hero_sub": "Škáluji mobilní hry přes výkonnostní user acquisition a pak stavím ad monetization stack, který zaplatí další vlnu hráčů.",
+    "hero_sub": "Škáluji mobilní hry a aplikace přes výkonnostní user acquisition a pak stavím ad monetization stack, který zaplatí další vlnu uživatelů.",
     "hero_btn": "Napište mi →",
     "scroll_hint": "SCROLL",
 
